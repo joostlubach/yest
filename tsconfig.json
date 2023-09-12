@@ -18,7 +18,10 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "baseUrl": "src",
-    "rootDir": "src"
+    "rootDir": "src",
+    "types": [
+      "jest"
+    ]
   },
   "include": [
     "src"

@@ -1,2 +1,2 @@
-export * as matchers from './matchers'
+export * from './async'
 export * from './prefixes'

@@ -20,7 +20,8 @@
     "baseUrl": "src",
     "rootDir": "src",
     "types": [
-      "jest"
+      "jest",
+      "node"
     ]
   },
   "include": [

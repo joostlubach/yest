@@ -25,12 +25,14 @@
   },
   "devDependencies": {
     "@types/jest": "^29.5.0",
+    "@types/md5": "^2.3.2",
     "copyfiles": "^2.4.1",
     "rimraf": "^5.0.1",
     "tsc-alias": "^1.8.7",
     "typescript": "^5.2.2"
   },
   "dependencies": {
+    "md5": "^2.3.0",
     "ytil": "workspace:^"
   }
 }

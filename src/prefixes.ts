@@ -1,8 +1,13 @@
+import md5 from 'md5'
+import { Buffer } from 'node:buffer'
+
 export function testPrefix(type?: string) {
+  const seed = Buffer.from(md5([jest.getSeed()])).toString('base64')
+
   if (type != null) {
-    return `test:${type}.${jest.getSeed()}.${UID++}`
+    return `_TEST:${type}.${seed}.${UID++}`
   } else {
-    return `test.${jest.getSeed()}.${UID++}`
+    return `_TEST.${seed}.${UID++}`
   }
 }
 

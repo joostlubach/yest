@@ -1,8 +1,12 @@
-import { Buffer } from 'node:buffer'
-
 export function testSeed(type?: string) {
-  const seed = Buffer.from([jest.getSeed()]).toString('hex')
-  return `${seed}-${UID++}`
+  let seed = jest.getSeed()
+  if (seed < 0) {
+    seed += 0xFFFFFFFF + 1
+  }
+
+  // Jest uses multiple worker processes. Differentiate that here.
+  const pid = process.pid
+  return `${seed.toString(16)}-${pid.toString(16)}-${UID++}`
 }
 
 export function testPrefix(type?: string) {

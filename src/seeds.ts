@@ -9,12 +9,4 @@ export function testSeed(type?: string) {
   return `${seed.toString(16)}-${pid.toString(16)}-${UID++}`
 }
 
-export function testPrefix(type?: string) {
-  if (type != null) {
-    return `_TEST:${type}.${testSeed()}`
-  } else {
-    return `_TEST.${testSeed()}`
-  }
-}
-
 let UID: number = 0

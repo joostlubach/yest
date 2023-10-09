@@ -1,4 +1,5 @@
-import { Constructor } from 'ytil'
+import DisposableTimer from 'disposable-timer'
+import { Constructor, ms } from 'ytil'
 
 export async function expectAsyncError<E extends Error>(
   fn:         () => PromiseLike<any>,
@@ -17,4 +18,14 @@ export async function expectAsyncError<E extends Error>(
     }
     matcher?.(error)
   }
+}
+
+export async function delay(duration: number | string, timer?: DisposableTimer) {
+  return new Promise<void>(resolve => {
+    if (timer != null) {
+      timer.setTimeout(resolve, ms(duration))
+    } else {
+      setTimeout(resolve, ms(duration))
+    }
+  })
 }

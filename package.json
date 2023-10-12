@@ -33,9 +33,11 @@
     "build:copy": "copyfiles -u 1 src/**/*.yml src/**/*.css .build/cjs && copyfiles -u 1 src/**/*.yml src/**/*.css .build/esm",
     "build:rsync": "rsync -uvaz --delete .build/ dist/",
     "build:cleanup": "rm -rf .build",
-    "clean": "rimraf dist"
+    "clean": "rimraf dist",
+    "test": "NODE_ENV=test DATA_ENV=test jest"
   },
   "devDependencies": {
+    "@types/bluebird": "^3.5.40",
     "@types/jest": "^29.5.0",
     "@types/md5": "^2.3.2",
     "copyfiles": "^2.4.1",
@@ -44,6 +46,7 @@
     "typescript": "^5.1.6"
   },
   "dependencies": {
+    "bluebird": "^3.7.2",
     "disposable-timer": "workspace:^",
     "ytil": "workspace:^"
   }

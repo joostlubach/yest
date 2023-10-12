@@ -13,7 +13,7 @@ export async function expectAsyncError<E extends Error>(
   if (error == null) {
     throw new Error("Expected error to be thrown (async), but no error was thrown")
   } else {
-    if (ErrorType && !(error instanceof ErrorType)) {
+    if (ErrorType && !(error instanceof ErrorType || typeof error === 'string')) {
       throw new Error(`Expected error to be of type ${ErrorType.name}, but was of type ${error.constructor.name}`)
     }
     matcher?.(error)

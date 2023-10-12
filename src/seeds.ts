@@ -7,6 +7,8 @@ export function testSeed(marker?: string) {
   }
 
   const parts = sparse([
+    'TEST',
+
     seed.toString(16),
     // Jest uses multiple worker processes. Differentiate that here.
     process.pid.toString(16),
@@ -15,7 +17,7 @@ export function testSeed(marker?: string) {
     marker,
   ])
 
-  return parts.join('-')
+  return parts.join(':')
 }
 
 let UID: number = 0

@@ -4,11 +4,10 @@ import { Constructor, ms } from 'ytil'
 export async function expectAsyncError<E extends Error>(
   fn:         () => PromiseLike<any>,
   ErrorType?: Constructor<E>,
-  matcher?:   (error: E) => void
+  matcher?:   (error: E) => void,
 ) {
   let error: any | null
-  try { await fn() }
-  catch (err) { error = err }
+  try { await fn() } catch (err) { error = err }
 
   if (error == null) {
     throw new Error("Expected error to be thrown (async), but no error was thrown")

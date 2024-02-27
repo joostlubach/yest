@@ -18,7 +18,6 @@
     "moduleResolution": "NodeNext",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "baseUrl": "src",
     "rootDir": "src",
     "types": [
       "jest",

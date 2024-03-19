@@ -2,11 +2,11 @@ import { padStart } from 'lodash'
 
 let nextOrdinal = 1
 
-export function resetFakeUUID() {
+export function resetMockUUID() {
   nextOrdinal = 1
 }
 
-export function fakeUUID() {
+export function mockUUID() {
   const ordinal = nextOrdinal++
 
   return [

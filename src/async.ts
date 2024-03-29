@@ -1,4 +1,4 @@
-import DisposableTimer from 'disposable-timer'
+import { DisposableTimer } from 'disposable-timer'
 import { Constructor, ms } from 'ytil'
 
 export async function expectAsyncError<E extends Error>(

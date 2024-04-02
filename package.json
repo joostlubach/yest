@@ -3,14 +3,14 @@
   "description": "Utilities and matchers for jest.",
   "author": "Joost Lubach <joostlubach@gmail.com>",
   "private": true,
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/types/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
-    },
-    "./matchers": {
-      "types": "./dist/matchers/index.d.ts",
-      "default": "./dist/matchers/index.js"
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/esm/index.js",
+      "default": "./dist/cjs/index.js"
     }
   },
   "scripts": {

@@ -1,3 +1,5 @@
+import { isObject } from 'ytil'
+
 /**
  * Creates a proxy that is backed by a function to retrieve the target. The function may return
  * `null` or `undefined` in which case the proxy simply returns `false` for [[Has]] and throws
@@ -59,7 +61,9 @@ export function dynamicProxy<T extends object>(getTarget: () => T | null | undef
   return new Proxy<T>({} as T, {
     has(_, prop) {
       const target = getTargetOrCached()
-      if (target != null) {
+      if (prop === ACTUAL) {
+        return true
+      } else if (target != null) {
         return Reflect.has(target, prop)
       } else {
         return false
@@ -68,7 +72,9 @@ export function dynamicProxy<T extends object>(getTarget: () => T | null | undef
 
     get(_, prop) {
       const target = getTargetOrCached()
-      if (target != null) {
+      if (prop === ACTUAL) {
+        return target
+      } if (target != null) {
         return Reflect.get(target, prop)
       } else {
         throw new Error("Service proxy not loaded")
@@ -77,7 +83,10 @@ export function dynamicProxy<T extends object>(getTarget: () => T | null | undef
 
     set(_, prop, value, receiver) {
       const target = getTargetOrCached()
-      if (target != null) {
+      if (prop === ACTUAL) {
+        cache = value
+        cached = true
+      } if (target != null) {
         return Reflect.set(target, prop, value, receiver)
       } else {
         throw new Error("Service proxy not loaded")
@@ -85,3 +94,24 @@ export function dynamicProxy<T extends object>(getTarget: () => T | null | undef
     },
   })
 }
+
+export namespace dynamicProxy {
+
+  export function actual<T>(proxy: T): T {
+    if (!isObject(proxy) || !(ACTUAL in proxy as any)) {
+      throw new Error("Value is not a dynamic proxy")
+    }
+
+    return (proxy as any)[ACTUAL]
+  }
+
+  export function setActual<T>(proxy: T, value: T) {
+    if (!isObject(proxy) || !(ACTUAL in proxy as any)) {
+      throw new Error("Value is not a dynamic proxy")
+    }
+    (proxy as any)[ACTUAL] = value
+  }
+
+}
+
+const ACTUAL = Symbol("ACTUAL")

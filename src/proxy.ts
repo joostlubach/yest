@@ -81,13 +81,13 @@ export function dynamicProxy<T extends object>(getTarget: () => T | null | undef
       }
     },
 
-    set(_, prop, value, receiver) {
+    set(_, prop, value) {
       const target = getTargetOrCached()
       if (prop === ACTUAL) {
         cache = value
         cached = true
       } if (target != null) {
-        return Reflect.set(target, prop, value, receiver)
+        return Reflect.set(target, prop, value)
       } else {
         throw new Error("Service proxy not loaded")
       }

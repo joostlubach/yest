@@ -2,8 +2,11 @@ import { isObject } from 'ytil'
 
 /**
  * Creates a proxy that is backed by a function to retrieve the target. The function may return
- * `null` or `undefined` in which case the proxy simply returns `false` for [[Has]] and throws
- * an error for [[Get]]. The target is cached, but reset after each test.
+ * `undefined` in which case the proxy simply returns `false` for [[Has]] and throws an error for
+ * [[Get]]. The target is cached, but reset after each test.
+ * 
+ * The value is retrieved in a `beforeEach()` handler, and reset in a `afterEach()` handler. Async
+ * is supported.
  * 
  * This is useful for utilities in test suites, as you only have to initialize them once:
  * 
@@ -40,27 +43,18 @@ import { isObject } from 'ytil'
  * @param getTarget 
  * @returns 
  */
-export function dynamicProxy<T extends object>(getTarget: () => T | null | undefined): T {
-  let cache: T | null | undefined
-  let cached: boolean = false
+export function dynamicProxy<T extends object>(getTarget: () => T | undefined | Promise<T | undefined>): T {
+  let target: T | undefined
 
-  function getTargetOrCached() {
-    if (cached) {
-      return cache
-    }
-
-    cache = getTarget()
-    cached = true
-    return cache
-  }
-  
+  beforeEach(async () => {
+    target = await getTarget()
+  })
   afterEach(() => {
-    cached = false
+    target = undefined
   })
 
   return new Proxy<T>({} as T, {
     has(_, prop) {
-      const target = getTargetOrCached()
       if (prop === ACTUAL) {
         return true
       } else if (target != null) {
@@ -71,7 +65,6 @@ export function dynamicProxy<T extends object>(getTarget: () => T | null | undef
     },
 
     get(_, prop) {
-      const target = getTargetOrCached()
       if (prop === ACTUAL) {
         return target
       } if (target != null) {
@@ -82,10 +75,8 @@ export function dynamicProxy<T extends object>(getTarget: () => T | null | undef
     },
 
     set(_, prop, value) {
-      const target = getTargetOrCached()
       if (prop === ACTUAL) {
-        cache = value
-        cached = true
+        target = value
       } if (target != null) {
         return Reflect.set(target, prop, value)
       } else {

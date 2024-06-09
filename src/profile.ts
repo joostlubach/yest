@@ -3,6 +3,6 @@ export async function profile<T>(label: string, cb: () => T | Promise<T>): Promi
   const result = await cb()
 
   const duration = Date.now() - start
-  console.log(`${label}: ${(duration / 1000).toFixed(2)}s`)
+  process.stderr.write(`${label}: ${(duration / 1000).toFixed(2)}s\n`)
   return result
 }

@@ -1,7 +1,8 @@
 import { sparse } from 'ytil'
 
 export function testSeed(prefix: string = 'test') {
-  let seed = jest.getSeed()
+  // TODO: Replace with Bun-compatible seed logic
+  let seed = 0 // placeholder for Bun
   if (seed < 0) {
     seed += 0xFFFFFFFF + 1
   }

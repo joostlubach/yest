@@ -1,4 +1,4 @@
-import { isObject } from 'ytil'
+import { isObject } from '@mosdev/ytil'
 
 /**
  * Creates a proxy that is backed by a function to retrieve the target. The function may return
